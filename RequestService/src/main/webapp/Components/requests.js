@@ -26,25 +26,25 @@ $(document).on("click", "#btnSave", function(event)
 	 	return;
 	 }
 
-	//if hidFeedbackIDSave value is null set as POST else set as PUT
-	 var type = ($("#hidFeedbackIDSave").val() == "") ? "POST" : "PUT";
+	//if hidRequestIDSave value is null set as POST else set as PUT
+	 var type = ($("#hidRequestIDSave").val() == "") ? "POST" : "PUT";
 	 
 	 //ajax communication 
 	 $.ajax({
 		
-				 url : "FeedbacksAPI",
+				 url : "RequestsAPI",
 				 type : type,
-				 data : $("#formFeedback").serialize(),
+				 data : $("#formRequest").serialize(),
 				 dataType : "text",
 				 complete : function(response, status)
 				 {
-				 onFeedbackSaveComplete(response.responseText, status);
+				 onRequestSaveComplete(response.responseText, status);
 			 }
  });
 });
 
-//function onFeedbackSaveComplete  after save request
-function onFeedbackSaveComplete(response, status)
+//function onRequestSaveComplete  after save request
+function onRequestSaveComplete(response, status)
 {
 	if (status == "success")
 	 {
@@ -77,17 +77,20 @@ function onFeedbackSaveComplete(response, status)
 	 $("#alertError").show();
 }
 	//reset form
-	$("#hidFeedbackIDSave").val("");
-	$("#formFeedback")[0].reset();
+	$("#hidRequestIDSave").val("");
+	$("#formRequest")[0].reset();
 }
 
 //Update Button
 $(document).on("click", ".btnUpdate", function(event)
 {
-	 $("#hidFeedbackIDSave").val($(this).data("feedbackid"));
-	 $("#fcname").val($(this).closest("tr").find('td:eq(0)').text());
-	 $("#date").val($(this).closest("tr").find('td:eq(1)').text());
-	 $("#feedback").val($(this).closest("tr").find('td:eq(2)').text());
+	 $("#hidRequestIDSave").val($(this).data("requestid"));
+	 $("#fullname").val($(this).closest("tr").find('td:eq(0)').text());
+	 $("#email").val($(this).closest("tr").find('td:eq(1)').text());
+	 $("#phoneno").val($(this).closest("tr").find('td:eq(2)').text());
+	 $("#pAddress").val($(this).closest("tr").find('td:eq(3)').text());
+	 $("#electricitySupply").val($(this).closest("tr").find('td:eq(4)').text());
+	 $("#purposeofusage").val($(this).closest("tr").find('td:eq(5)').text());
  
 });
 
@@ -97,19 +100,19 @@ $(document).on("click", ".btnRemove", function(event)
 {
 	 $.ajax(
 	 {
-	 url : "FeedbacksAPI",
+	 url : "RequestsAPI",
 	 type : "DELETE",
-	 data : "feedbackId=" + $(this).data("feedbackid"),
+	 data : "requestId=" + $(this).data("requestid"),
 	 dataType : "text",
 	 complete : function(response, status)
 	 {
-	 onFeedbackDeleteComplete(response.responseText, status);
+	 onRequestDeleteComplete(response.responseText, status);
  	 }
  });
 });
 
 //after completeing the delete request
-function onFeedbackDeleteComplete(response, status)
+function onRequestDeleteComplete(response, status)
 {
 	if (status == "success")
 	 {
@@ -120,7 +123,7 @@ function onFeedbackDeleteComplete(response, status)
 			 $("#alertSuccess").text("Successfully deleted.");
 			 $("#alertSuccess").show();
 			 
-		 	 $("#divFeedbacksGrid").html(resultSet.data);
+		 	 $("#divRequestsGrid").html(resultSet.data);
 		 	 
 		 } else if (resultSet.status.trim() == "error")
 		 {
@@ -143,47 +146,37 @@ function validateFeedbackForm()
 {
 
 //customer name
-if ($("#fcname").val().trim() == "")
+if ($("#fullname").val().trim() == "")
  {
- return "Insert Customer Name.";
+ return "Insert Customer Full Name.";
  }
-// Date
-if ($("#date").val().trim() == "")
+// Email
+if ($("#email").val().trim() == "")
  {
- return "Insert Date.";
+ return "Insert Valid Email Address.";
  }
- //feedback
- if ($("#feedback").val().trim() == "")
+ //Phoneno
+ if ($("#phoneno").val().trim() == "")
  {
- return "Insert Feedback.";
+ return "Insert Phone no.";
+ }
+ //Address of the Premises where Electricity Supply is Required
+  if ($("#pAddress").val().trim() == "")
+ {
+ return "Insert Address of the Premises where Electricity Supply is Required.";
  }
  
+ //Required Electricity Supply
+  if ($("#electricitySupply").val().trim() == "")
+ {
+ return "Insert Required Electricity Supply.";
+ 
+ }
+ //Purpose of Usage
+  if ($("#purposeofusage").val().trim() == "")
+ {
+ return "Insert Purpose of Usage.";
+  
+ }
 	return true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
