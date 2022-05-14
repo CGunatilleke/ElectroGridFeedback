@@ -147,12 +147,12 @@ if ($("#fcname").val().trim() == "")
  {
  return "Insert Customer Name.";
  }
-// NAME
+// Date
 if ($("#date").val().trim() == "")
  {
  return "Insert Date.";
  }
- 
+ //feedback
  if ($("#feedback").val().trim() == "")
  {
  return "Insert Feedback.";
